@@ -1,5 +1,5 @@
-# Harmony Hub Websockets API
-This repo explains how to access the new Harmony Hub API over Websockets.
+# Harmony Hub HTTP & Websockets API
+This repo explains how to access the new Harmony Hub API over Websockets and HTTP POST.
 
 Harmony Hubs have port 8088 open which can be used for issuing commands over HTTP POST or Websocket.
 This is a simple guide of what sorts of commands are available, it is not a definative list. 
@@ -92,11 +92,38 @@ RESPONSE
 }
 ````
 
+JSONata to filter results
+Copy the response (from the above request) into the left side and the following query on the right side at this site: http://try.jsonata.org/
+
+````
+{
+    "Activities": $spread(data.resource.Activities {
+        Name: [
+            $ ~> | $ | {}, "Name" |            
+        ]
+    }).{
+        "Name": $keys()[0],
+        "ActivityId":*."Id-"
+    }
+}
+````
+
+RESULTS
+````json
+{
+  "Activities": [
+    {
+      "Name": "Watch TV",
+      "ActivityId": 0000
+    }
+]}
+````
+
 ##### START ACTIVITY
 Find the activity number from the above command.
-
+````json
 {"cmd": "harmony.activityengine?runactivity", "params":{"activityId":"-1"}}
-
+````
 
 ##### GET DEVICES
 REQUEST
@@ -129,7 +156,52 @@ RESPONSE
 }
 ````
 
-##### DEVICE INFORMATION
+JSONata to filter results
+Copy the response (from the above request) into the left side and the following query on the right side at this site: http://try.jsonata.org/
+
+````
+{
+    "Devices": $spread(data.resource.DevicesWithFeatures.Device {
+        Name: [
+            $ ~> | $ | {}, "Name" |            
+        ]
+    }).{
+        "Name": $keys()[0],
+        "DeviceId":*."Id-"
+    }
+}
+````
+
+RESULTS
+````json
+{
+  "Devices": [
+    {
+      "Name": "Watch TV",
+      "DeviceId": 0000
+    }
+]}
+````
+#### DEVICE BUTTON PRESS
+Status can either be press, hold or release.
+
+REQUEST
+````json
+{"cmd":"harmony.engine?holdAction","timeout": 60,"params":{"status":"press","timestamp":"0","verb":"render","action": "{\"command\":\"Mute\",\"type\":\"IRCommand\",\"deviceId\":\"[DEVICEID]\"}"}}
+````
+
+RESPONSE
+````json
+{
+    "msg": "OK",
+    "data": {
+        "deviceId": "[DEVICEID]"
+    },
+    "code": 200
+}
+````
+
+##### HUB INFORMATION
 REQUEST
 ````json
 {"id":24269474,"cmd":"connect.sysinfo?get","timeout":10000}
@@ -161,7 +233,7 @@ RESPONSE
 }
 ````
 
-##### DEVICE CAPABLITITIES
+##### HUB CAPABLITITIES
 REQUEST
 ````json
 {"id":76452280,"cmd":"proxy.resource?get","params":{"uri":"harmony://Account/[MyREMOTEID]/CapabilityList"},"timeout":90000}
