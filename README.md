@@ -97,14 +97,10 @@ Copy the response (from the above request) into the left side and the following 
 
 ````
 {
-    "Activities": $spread(data.resource.Activities {
-        Name: [
-            $ ~> | $ | {}, "Name" |            
-        ]
-    }).{
-        "Name": $keys()[0],
-        "ActivityId":*."Id-"
-    }
+  "Devices": data.resource.Activities.({
+  "Name":$.Name,
+  "ActivityId": $."Id-",  
+  })
 }
 ````
 
@@ -161,24 +157,22 @@ Copy the response (from the above request) into the left side and the following 
 
 ````
 {
-    "Devices": $spread(data.resource.DevicesWithFeatures.Device {
-        Name: [
-            $ ~> | $ | {}, "Name" |            
-        ]
-    }).{
-        "Name": $keys()[0],
-        "DeviceId":*."Id-"
-    }
+  "Devices": data.resource.DevicesWithFeatures.({
+  "Name":$.Device.Name,
+  "DeviceId": $.Device."Id-",
+  "Commands": $.Commands.Name
+  })
 }
 ````
 
 RESULTS
-````json
+````
 {
   "Devices": [
     {
       "Name": "Watch TV",
-      "DeviceId": 0000
+      "DeviceId": 0000,
+      "Commands": []
     }
 ]}
 ````
