@@ -104,7 +104,7 @@ Copy the response (from the above request) into the left side and the following 
 }
 ````
 
-RESULTS
+JSONATA RESULTS
 ````json
 {
   "Activities": [
@@ -115,8 +115,82 @@ RESULTS
 ]}
 ````
 
+##### GET ACTIVITY DEVICE COMMANDS
+In addition to the above way to get Activities you can also get Activites and Device information via the hub configuration
+
+REQUEST
+````json
+{"id": 0,"cmd": "harmony.engine?config","timeout": 90000}
+````
+
+RESPONSE
+````json
+{
+   "id":23771041,
+   "msg":"OK",
+   "data":{
+      "dataConsent":false,
+      "sequence":[
+
+      ],
+      "global":{ },
+      "device":[ ],
+      "sla":{ },
+      "content":{ },
+      "activity":[ ]
+   },
+   "code":"200"
+}
+````
+
+Filter the results to only show activity names and device commands
+````
+{
+  "Activity": data.activity.({
+  $.label:$.id,
+  "DeviceCommands": $.controlGroup.function.action
+  })
+}
+````
+
+You are then left with a much smaller list to look through.
+
+```json
+{
+   "Activity":[
+      {
+         "Activity Name":"Activity ID",
+         "DeviceCommands":[ ]
+      }
+    ]
+}
+````
+
+##### GET CURRENT ACTIVITY
+To get the Current Activity running use the body.
+
+REQUEST
+````json
+{"cmd":"harmony.engine?getCurrentActivity"}
+````
+
+RESPONSE
+
+````json
+{
+	"msg": "OK",
+	"data": {
+		"result": "-1"
+	},
+	"code": "200"
+}
+````
+
+-1 indicates no activity is running otherwise it will show the number related to an activity such as Watch TV
+
 ##### START ACTIVITY
 Find the activity number from the above command.
+
 ````json
 {"cmd": "harmony.activityengine?runactivity", "params":{"activityId":"-1"}}
 ````
@@ -136,11 +210,7 @@ RESPONSE
       "hetag":"xxxx",
       "resource":{
          "MaxActivities":null,
-         "Capabilities":[
-            {
-
-            }
-         ],
+         "Capabilities":[{}],
          "MaxDevices":8,
          "DisplayName":"Harmony Smart Control"
       },
