@@ -12,13 +12,15 @@ All HTTP commands are send to the following address: http://HUB_IP:8088
 You need to supply the following headers for the request to be authenticated
 
 ```
-Origin: http//:localhost.nebula.myharmony.com
+Origin: http://sl.dhg.myharmony.com
 Content-Type	application/json
 Accept	utf-8
 ```
 
 You can now issue the following commands by sending different messages in the body. 
 Change the ID to a random number.
+
+****ONLY ACCOUNT INFORMATION IS CURRENTLY WORKING SINCE THE LATEST UPDATE****
 
 ##### PING
 REQUEST
