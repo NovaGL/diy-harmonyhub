@@ -387,3 +387,83 @@ RESPONSE
 {"id":75689134,"cmd":"setup.firmware?check","timeout":45000}
 
 ````
+
+Websocket Commands
+------
+
+##### GET HOMEAUTOMATION STATE
+REQUEST
+````json
+{"hubId":"[MyREMOTEID]","hbus":{"id":"1555605542","cmd":"harmony.automation?getstate","params":{}}} 
+````
+
+RESPONSE
+```json
+{
+	"cmd": "harmony.automation?getstate",
+	"code": 200,
+	"id": "1555605542",
+	"msg": "OK",
+	"data": {
+
+		"hue-light.harmony_virtual_button_1": {
+			"color": {
+				"mode": "xy",
+				"xy": {
+					"y": 0,
+					"x": 0
+				},
+				"temp": 300,
+				"hueSat": {
+					"hue": 0,
+					"sat": 0
+				}
+			},
+			"brightness": 254,
+			"on": false,
+			"status": 0
+		},
+
+	}
+}
+````
+##### SET HOMEAUTOMATION STATE
+REQUEST
+````json
+{"hubId":"[MyREMOTEID]","hbus":{"id":"1794236100","cmd":"harmony.automation?setstate","params":{"state":{"hue-light.harmony_virtual_button_1":{"on":true}}}}}
+````
+
+RESPONSE
+```json
+{
+	"cmd": "harmony.automation?setstate",
+	"code": 200,
+	"id": "968549983",
+	"msg": "OK"
+}
+````
+THEN FOWLLOWED BY 
+```json
+{
+	"type": "automation.state?notify",
+	"data": {
+		"hue-light.harmony_virtual_button_1": {
+			"color": {
+				"mode": "xy",
+				"xy": {
+					"y": 0,
+					"x": 0
+				},
+				"temp": 300,
+				"hueSat": {
+					"hue": 0,
+					"sat": 0
+				}
+			},
+			"brightness": 254,
+			"on": true,
+			"status": 0
+		}
+	}
+}
+````
