@@ -7,7 +7,7 @@ Please feel free to add any missing information via a PR.
 
 HTTP POST Commands
 ------
-All HTTP commands are send to the following address: http://HUB_IP:8088
+All HTTP commands are sent to the following address: http://HUB_IP:8088
 
 You need to supply the following headers for the request to be authenticated
 
@@ -390,6 +390,7 @@ RESPONSE
 
 Websocket Commands
 ------
+All Websocket commands are sent to the following address: http://HUB_IP:8088/?domain=svcs.myharmony.com&hubId=[MyREMOTEID]
 
 ##### GET HOMEAUTOMATION STATE
 REQUEST
