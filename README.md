@@ -7,7 +7,8 @@ Please feel free to add any missing information via a PR.
 
 HTTP POST Commands
 ------
-All HTTP commands are sent to the following address: http://HUB_IP:8088
+All HTTP commands are sent to the following address: 
+````http://HUB_IP:8088````
 
 You need to supply the following headers for the request to be authenticated
 
@@ -54,6 +55,61 @@ For the following commands use the remote ID which is obtained from the above co
 All Websocket commands are sent to the following address: 
 
 ```http://HUB_IP:8088/?domain=svcs.myharmony.com&hubId=[MyREMOTEID]```
+
+### CONFIGURATION
+------
+All the information we need can be found by issuing the following command it shows all the devices and activites in the response.
+
+REQUEST
+
+````json
+{
+	"hubId": "[MyRemoteID]",
+	"timeout": 60,
+	"hbus": {
+		"cmd": "vnd.logitech.harmony\/vnd.logitech.harmony.engine?config",
+		"id": "0",
+		"params": {
+			"verb": "get"
+		}
+	}
+}
+````
+
+RESPONSE
+````json
+{
+  "cmd": "vnd.logitech.harmony\/vnd.logitech.harmony.engine?config",
+  "code": 200,
+  "id": "0",
+  "msg": "OK",
+  "data": {
+    "dataConsent": false,
+    "sequence": [],
+	"global": {},
+	"device": [{}],
+	"sla": {},
+	"content": {},
+	"activity": [{}],
+	}
+}
+````
+
+Use JSONata to filter results.
+
+Copy the response (from the above request) into the left side and the following query on the right side at this site: http://try.jsonata.org/
+
+````
+{
+  "Activity": data.activity.({
+  $.label:$.id  
+  }),
+  "Devices": data.device.({
+  $.label:$.contentProfileKey  
+  })
+}
+````
+
 
 ### ACTIVITIES
 ------
