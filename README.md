@@ -21,7 +21,7 @@ Accept	utf-8
 You can now issue the following commands by sending different messages in the body. 
 Change the ID to a random number.
 
-****ONLY ACCOUNT INFORMATION IS CURRENTLY WORKING SINCE THE LATEST UPDATE****
+****ONLY ACCOUNT INFORMATION IS CURRENTLY WORKING SINCE THE LATEST UPDATE FOR HTTP POST COMMANDS****
 
 #### ACCOUNT INFORMATION
 ------
@@ -122,7 +122,7 @@ REQUEST
 	"hubId": "[MyREMOTEID]",
 	"timeout": 60,
 	"hbus": {
-		"cmd": "vnd.logitech.harmony\/vnd.logitech.harmony.engine?config",
+		"cmd": "vnd.logitech.harmony\/vnd.logitech.harmony.engine?startactivity",
 		"id": "0",
 		"params": {
 			"async": "true",
@@ -139,13 +139,44 @@ REQUEST
 RESPONSE
 ```json
 {
-  "cmd": "vnd.logitech.harmony\/vnd.logitech.harmony.engine?config",
+  "type": "vnd.logitech.harmony\/vnd.logitech.harmony.engine?startActivityFinished",
+  "data": {
+  	"activityId": "-1",
+	"errorCode": 200,  	
+  	"errorString": "OK"
+  }
+}
+```
+
+##### GET CURRENT ACTIVITY
+REQUEST
+````json
+{
+	"hubId": "[MyRemoteID]",
+	"timeout": 60,
+	"hbus": {
+		"cmd": "vnd.logitech.harmony\/vnd.logitech.harmony.engine?getCurrentActivity",
+		"id": "0",
+		"params": {
+			"verb": "get"
+		}
+	}
+}
+````
+
+RESPONSE
+
+````json
+{
+  "cmd": "vnd.logitech.harmony\/vnd.logitech.harmony.engine?getCurrentActivity",
   "code": 200,
   "id": "0",
   "msg": "OK",
-    "data": {}
+  "data": {
+    "result": "-1"
+  }
 }
-```
+````
 
 ### DEVICES
 ------
